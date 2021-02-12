@@ -1,0 +1,13 @@
+{
+  "name": "learn-rockstart-compiler",
+  "version": "1.0.0",
+  "main": "src/index.ts",
+  "author": "Simeunovic Simo <simeunovics@gmail.com>",
+  "license": "MIT",
+  "scripts": {
+    "start": "deno run src/index.ts"
+  },
+  "dependencies": {
+    "pegjs": "^0.10.0"
+  }
+}
