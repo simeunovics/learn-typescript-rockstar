@@ -5,8 +5,7 @@
   "author": "Simeunovic Simo <simeunovics@gmail.com>",
   "license": "MIT",
   "scripts": {
-    "start": "node src/harnes.js",
-    "build": "tsc src/syntax.ts && pegjs src/integers.peg"
+    "build": "tsc src/*.ts && pegjs src/integers.pegjs && node src/harnes.js"
   },
   "dependencies": {
     "pegjs": "^0.10.0"

@@ -13,7 +13,7 @@ var __extends = (this && this.__extends) || (function () {
     };
 })();
 exports.__esModule = true;
-exports.NumberNode = exports.MultiplicationNode = exports.AdditionNode = exports.NodeTypes = exports.BinaryNode = void 0;
+exports.OutputNode = exports.NumberNode = exports.MultiplicationNode = exports.AdditionNode = exports.NodeTypes = exports.BinaryNode = void 0;
 var BinaryNode = /** @class */ (function () {
     function BinaryNode(lhs, rhs) {
         this.lhs = lhs;
@@ -24,15 +24,16 @@ var BinaryNode = /** @class */ (function () {
 exports.BinaryNode = BinaryNode;
 var NodeTypes;
 (function (NodeTypes) {
-    NodeTypes[NodeTypes["Addition"] = 0] = "Addition";
-    NodeTypes[NodeTypes["Multiplication"] = 1] = "Multiplication";
-    NodeTypes[NodeTypes["Number"] = 2] = "Number";
+    NodeTypes[NodeTypes["AdditionNode"] = 0] = "AdditionNode";
+    NodeTypes[NodeTypes["MultiplicationNode"] = 1] = "MultiplicationNode";
+    NodeTypes[NodeTypes["NumberNode"] = 2] = "NumberNode";
+    NodeTypes[NodeTypes["OutputNode"] = 3] = "OutputNode";
 })(NodeTypes = exports.NodeTypes || (exports.NodeTypes = {}));
 var AdditionNode = /** @class */ (function (_super) {
     __extends(AdditionNode, _super);
     function AdditionNode() {
         var _this = _super !== null && _super.apply(this, arguments) || this;
-        _this.kind = NodeTypes.Addition;
+        //   kind = NodeTypes.AdditionNode;
         _this.evaluate = function () { return _this.lhs.evaluate() + _this.rhs.evaluate(); };
         return _this;
     }
@@ -43,7 +44,7 @@ var MultiplicationNode = /** @class */ (function (_super) {
     __extends(MultiplicationNode, _super);
     function MultiplicationNode() {
         var _this = _super !== null && _super.apply(this, arguments) || this;
-        _this.kind = NodeTypes.Multiplication;
+        //   kind = NodeTypes.MultiplicationNode;
         _this.evaluate = function () { return _this.lhs.evaluate() * _this.rhs.evaluate(); };
         return _this;
     }
@@ -51,6 +52,7 @@ var MultiplicationNode = /** @class */ (function (_super) {
 }(BinaryNode));
 exports.MultiplicationNode = MultiplicationNode;
 var NumberNode = /** @class */ (function () {
+    //   kind: NodeTypes.NumberNode;
     function NumberNode(value) {
         var _this = this;
         this.value = value;
@@ -59,3 +61,13 @@ var NumberNode = /** @class */ (function () {
     return NumberNode;
 }());
 exports.NumberNode = NumberNode;
+var OutputNode = /** @class */ (function () {
+    //   kind: NodeTypes.OutputNode;
+    function OutputNode(expr) {
+        var _this = this;
+        this.expr = expr;
+        this.evaluate = function () { return console.log(_this.expr.evaluate()); };
+    }
+    return OutputNode;
+}());
+exports.OutputNode = OutputNode;
