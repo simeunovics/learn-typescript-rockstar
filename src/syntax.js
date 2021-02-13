@@ -13,7 +13,7 @@ var __extends = (this && this.__extends) || (function () {
     };
 })();
 exports.__esModule = true;
-exports.OutputNode = exports.NumberNode = exports.MultiplicationNode = exports.AdditionNode = exports.NodeTypes = exports.BinaryNode = void 0;
+exports.QuitNode = exports.OutputNode = exports.NumberNode = exports.MultiplicationNode = exports.AdditionNode = exports.BinaryNode = void 0;
 var BinaryNode = /** @class */ (function () {
     function BinaryNode(lhs, rhs) {
         this.lhs = lhs;
@@ -22,52 +22,57 @@ var BinaryNode = /** @class */ (function () {
     return BinaryNode;
 }());
 exports.BinaryNode = BinaryNode;
-var NodeTypes;
-(function (NodeTypes) {
-    NodeTypes[NodeTypes["AdditionNode"] = 0] = "AdditionNode";
-    NodeTypes[NodeTypes["MultiplicationNode"] = 1] = "MultiplicationNode";
-    NodeTypes[NodeTypes["NumberNode"] = 2] = "NumberNode";
-    NodeTypes[NodeTypes["OutputNode"] = 3] = "OutputNode";
-})(NodeTypes = exports.NodeTypes || (exports.NodeTypes = {}));
 var AdditionNode = /** @class */ (function (_super) {
     __extends(AdditionNode, _super);
     function AdditionNode() {
-        var _this = _super !== null && _super.apply(this, arguments) || this;
-        //   kind = NodeTypes.AdditionNode;
-        _this.evaluate = function () { return _this.lhs.evaluate() + _this.rhs.evaluate(); };
-        return _this;
+        return _super !== null && _super.apply(this, arguments) || this;
     }
+    AdditionNode.prototype.evaluate = function () {
+        return { result: this.lhs.evaluate().result + this.rhs.evaluate().result };
+    };
     return AdditionNode;
 }(BinaryNode));
 exports.AdditionNode = AdditionNode;
 var MultiplicationNode = /** @class */ (function (_super) {
     __extends(MultiplicationNode, _super);
     function MultiplicationNode() {
-        var _this = _super !== null && _super.apply(this, arguments) || this;
-        //   kind = NodeTypes.MultiplicationNode;
-        _this.evaluate = function () { return _this.lhs.evaluate() * _this.rhs.evaluate(); };
-        return _this;
+        return _super !== null && _super.apply(this, arguments) || this;
     }
+    MultiplicationNode.prototype.evaluate = function () {
+        return { result: this.lhs.evaluate().result * this.rhs.evaluate().result };
+    };
     return MultiplicationNode;
 }(BinaryNode));
 exports.MultiplicationNode = MultiplicationNode;
 var NumberNode = /** @class */ (function () {
-    //   kind: NodeTypes.NumberNode;
     function NumberNode(value) {
-        var _this = this;
         this.value = value;
-        this.evaluate = function () { return _this.value; };
     }
+    NumberNode.prototype.evaluate = function () {
+        return { result: this.value };
+    };
     return NumberNode;
 }());
 exports.NumberNode = NumberNode;
 var OutputNode = /** @class */ (function () {
-    //   kind: NodeTypes.OutputNode;
     function OutputNode(expr) {
-        var _this = this;
         this.expr = expr;
-        this.evaluate = function () { return console.log(_this.expr.evaluate()); };
     }
+    OutputNode.prototype.evaluate = function () {
+        var result = this.expr.evaluate().result;
+        console.log(result);
+        return { result: result };
+    };
     return OutputNode;
 }());
 exports.OutputNode = OutputNode;
+var QuitNode = /** @class */ (function () {
+    function QuitNode(expr) {
+        this.expr = expr;
+    }
+    QuitNode.prototype.evaluate = function () {
+        return { action: "quit", result: null };
+    };
+    return QuitNode;
+}());
+exports.QuitNode = QuitNode;

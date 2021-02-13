@@ -9,7 +9,13 @@ var program2 = "1+2\n3+4\n(5+6)*(7+8+9)";
 // const ast = parse(program2);
 // console.log(ast);
 // ast.forEach((node) => console.log(node.evaluate()));
-var program3 = "say 1+2\nsay 3+4\nsay (1+3)*(3*4)+5";
+var program3 = "say 1+2\nsay 3+4\nquit\nsay (1+3)*(3*4)+5";
 var ast = integers_js_1.parse(program3);
 // console.log(ast);
-ast.forEach(function (n) { return n.evaluate(); });
+for (var _i = 0, ast_1 = ast; _i < ast_1.length; _i++) {
+    var node = ast_1[_i];
+    var result = node.evaluate();
+    if ((result === null || result === void 0 ? void 0 : result.action) === "quit") {
+        process.exit();
+    }
+}

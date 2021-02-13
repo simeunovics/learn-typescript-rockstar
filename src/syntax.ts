@@ -1,39 +1,52 @@
 export interface AbstractNode {
-  //   readonly kind: NodeTypes;
-  evaluate(): any;
+  evaluate(): iThing;
+}
+interface iThing {
+  result: any;
+  action?: "quit";
 }
 export abstract class BinaryNode implements AbstractNode {
-  //   abstract kind: NodeTypes;
-  abstract evaluate(): any;
+  public abstract evaluate(): iThing;
   public constructor(
     public readonly lhs: RockStarNode,
     public readonly rhs: RockStarNode
   ) {}
 }
-export enum NodeTypes {
-  AdditionNode,
-  MultiplicationNode,
-  NumberNode,
-  OutputNode,
-}
 
-export type RockStarNode = AdditionNode | MultiplicationNode | NumberNode;
+export type RockStarNode =
+  | AdditionNode
+  | MultiplicationNode
+  | NumberNode
+  | OutputNode
+  | QuitNode;
 
 export class AdditionNode extends BinaryNode {
-  //   kind = NodeTypes.AdditionNode;
-  public evaluate = () => this.lhs.evaluate() + this.rhs.evaluate();
+  public evaluate(): iThing {
+    return { result: this.lhs.evaluate().result + this.rhs.evaluate().result };
+  }
 }
 export class MultiplicationNode extends BinaryNode {
-  //   kind = NodeTypes.MultiplicationNode;
-  public evaluate = () => this.lhs.evaluate() * this.rhs.evaluate();
+  public evaluate(): iThing {
+    return { result: this.lhs.evaluate().result * this.rhs.evaluate().result };
+  }
 }
 export class NumberNode implements AbstractNode {
-  //   kind: NodeTypes.NumberNode;
   public constructor(public readonly value: number) {}
-  public evaluate = (): number => this.value;
+  public evaluate(): iThing {
+    return { result: this.value };
+  }
 }
 export class OutputNode implements AbstractNode {
-  //   kind: NodeTypes.OutputNode;
   public constructor(public readonly expr: RockStarNode) {}
-  public evaluate = (): void => console.log(this.expr.evaluate());
+  public evaluate(): iThing {
+    const { result } = this.expr.evaluate();
+    console.log(result);
+    return { result };
+  }
+}
+export class QuitNode implements AbstractNode {
+  public constructor(public readonly expr: RockStarNode) {}
+  public evaluate(): iThing {
+    return { action: "quit", result: null };
+  }
 }

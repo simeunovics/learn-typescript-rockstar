@@ -10,10 +10,11 @@ program
   = head:line EOL tail:program { return [head].concat(tail); }
   / item:line { return [item]; }
 
-line = output
+line = output / quit
 // line = assign / output
 // assign = 'let' _ v:variable _ '=' _ expression
 output = 'say' _ node:expression { return new Syntax.OutputNode(node); }
+quit = 'quit' { return new Syntax.QuitNode(); }
 
 expression = additive
 
