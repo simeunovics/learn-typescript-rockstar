@@ -1,23 +1,33 @@
-export interface RockStarNode {
-  kind: string;
+export interface AbstractNode {
+  readonly kind: NodeTypes;
+  evaluate(): any;
 }
-
-export class AdditionNode implements RockStarNode {
-  kind: "addition";
+export abstract class BinaryNode implements AbstractNode {
+  abstract kind: NodeTypes;
+  abstract evaluate(): any;
   public constructor(
-    public readonly lsh: RockStarNode,
+    public readonly lhs: RockStarNode,
     public readonly rhs: RockStarNode
   ) {}
 }
-export class MultiplicationNode implements RockStarNode {
-  kind: "multiplication";
-  public constructor(
-    public readonly lsh: RockStarNode,
-    public readonly rhs: RockStarNode
-  ) {}
+export enum NodeTypes {
+  Addition,
+  Multiplication,
+  Number,
 }
 
-export class NumberNode implements RockStarNode {
-  kind: "number";
+export type RockStarNode = AdditionNode | MultiplicationNode | NumberNode;
+
+export class AdditionNode extends BinaryNode {
+  kind = NodeTypes.Addition;
+  public evaluate = () => this.lhs.evaluate() + this.rhs.evaluate();
+}
+export class MultiplicationNode extends BinaryNode {
+  kind = NodeTypes.Multiplication;
+  public evaluate = () => this.lhs.evaluate() * this.rhs.evaluate();
+}
+export class NumberNode implements AbstractNode {
+  kind: NodeTypes.Number;
   public constructor(public readonly value: number) {}
+  public evaluate = (): number => this.value;
 }

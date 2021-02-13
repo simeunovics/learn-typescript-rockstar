@@ -5,7 +5,8 @@
   "author": "Simeunovic Simo <simeunovics@gmail.com>",
   "license": "MIT",
   "scripts": {
-    "start": "deno run src/index.ts"
+    "start": "node src/harnes.js",
+    "build": "tsc src/syntax.ts && pegjs src/integers.peg"
   },
   "dependencies": {
     "pegjs": "^0.10.0"
